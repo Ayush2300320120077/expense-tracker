@@ -145,20 +145,20 @@ const Home = () => {
 
     const fetchAllTransactions = async () => {
       try {
-        setLoading(true);
-        console.log(cUser._id, frequency, startDate, endDate, type);
-        const { data } = await axios.post(getTransactions, {
-          userId: cUser._id,
-          frequency: frequency,
-          startDate: startDate,
-          endDate: endDate,
-          type: type,
-        });
-        console.log(data);
-  
-        setTransactions(data.transactions);
-  
-        setLoading(false);
+        if (cUser && cUser._id) {
+          setLoading(true);
+          console.log(cUser._id, frequency, startDate, endDate, type);
+          const { data } = await axios.post(getTransactions, {
+            userId: cUser._id,
+            frequency: frequency,
+            startDate: startDate,
+            endDate: endDate,
+            type: type,
+          });
+          console.log(data);
+          setTransactions(data.transactions);
+          setLoading(false);
+        }
       } catch (err) {
         // toast.error("Error please Try again...", toastOptions);
         setLoading(false);
@@ -166,7 +166,7 @@ const Home = () => {
     };
 
     fetchAllTransactions();
-  }, [refresh, frequency, endDate, type, startDate]);
+  }, [refresh, frequency, endDate, type, startDate, cUser]);
 
   const handleTableClick = (e) => {
     setView("table");
