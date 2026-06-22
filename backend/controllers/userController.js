@@ -35,10 +35,13 @@ export const registerControllers = async (req, res, next) => {
             password: hashedPassword, 
         });
 
+        const userObj = newUser.toObject();
+        delete userObj.password;
+
         return res.status(200).json({
             success: true,
             message: "User Created Successfully",
-            user: newUser
+            user: userObj
         });
     }
     catch(err){
@@ -80,12 +83,13 @@ export const loginControllers = async (req, res, next) => {
             }); 
         }
 
-        delete user.password;
+        const userObj = user.toObject();
+        delete userObj.password;
 
         return res.status(200).json({
             success: true,
             message: `Welcome back, ${user.name}`,
-            user,
+            user: userObj,
         });
 
     }

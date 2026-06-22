@@ -146,15 +146,9 @@ export const deleteTransactionController = async (req, res) => {
       });
     }
 
-    const transactionArr = user.transactions.filter(
-      (transaction) => transaction._id === transactionId
-    );
+    user.transactions.pull(transactionId);
 
-    user.transactions = transactionArr;
-
-    user.save();
-
-    // await transactionElement.remove();
+    await user.save();
 
     return res.status(200).json({
       success: true,
